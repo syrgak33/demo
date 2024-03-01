@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the GitHub repository
-                git credentialsId: 'YOUR_GITHUB_CREDENTIALS_ID', url: 'https://github.com/username/repo.git'
+                git credentialsId: 'github-creds', url: 'https://github.com/username/repo.git'
             }
         }
         
@@ -61,7 +61,7 @@ pipeline {
 
 def updateGitHubPRStatus(state, description) {
     def pullRequestId = env.CHANGE_ID // Get the pull request ID from environment variables
-    def githubToken = credentials('YOUR_GITHUB_TOKEN_ID') // Use Jenkins credentials to retrieve the GitHub token
+    def githubToken = credentials('github-token') // Use Jenkins credentials to retrieve the GitHub token
     
     def payload = [
         state: state,
