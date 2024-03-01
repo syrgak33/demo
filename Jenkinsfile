@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the GitHub repository
-                git credentialsId: 'github-creds', url: 'https://github.com/username/repo.git'
+                git credentialsId: 'github-creds', url: 'https://github.com/syrgak33/demo.git'
             }
         }
         
