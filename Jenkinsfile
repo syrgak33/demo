@@ -18,13 +18,12 @@ pipeline {
             script {
                     echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "TEST_BRANCH: ${env.TEST_BRANCH}"
-                    echo "CHANGE_TARGET: ${env.CHANGE_TARGET}"
             }
            
               
             when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH || env.CHANGE_TARGET == env.TEST_BRANCH }
+                expression { env.BRANCH_NAME == env.TEST_BRANCH }
             }
             
                 // Your build and test commands here
@@ -42,7 +41,7 @@ pipeline {
         stage('Deploy to Test Environment') {
             when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH || env.CHANGE_TARGET == env.TEST_BRANCH }
+                expression { env.BRANCH_NAME == env.TEST_BRANCH }
             }
             steps {
                 // Your deployment commands for the test environment
