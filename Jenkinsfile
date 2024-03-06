@@ -8,8 +8,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the GitHub repository
-                git branch: 'test',
-                    credentialsId: 'github-creds',
+                git credentialsId: 'github-creds',
                     url: 'https://github.com/syrgak33/demo.git'
                // git credentialsId: 'github-creds', url: 'https://github.com/syrgak33/demo.git'
             }
