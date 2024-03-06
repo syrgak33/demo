@@ -1,8 +1,6 @@
 pipeline {
     agent any
-
-    
-    environment {
+      environment {
         TEST_BRANCH = 'test'  // Specify the name of your test branch
     }
 
