@@ -75,7 +75,7 @@ def updateGitHubPRStatus(state, description) {
     httpRequest(
         contentType: 'APPLICATION_JSON',
         httpMode: 'POST',
-        url: "https://api.github.com/repos/username/repo/statuses/$pullRequestId",
+        url: "https://api.github.com/repos/syrgak33/demo/statuses/$pullRequestId",
         authentication: githubToken,
         requestBody: groovy.json.JsonOutput.toJson(payload)
     )
