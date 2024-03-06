@@ -20,7 +20,7 @@ pipeline {
                     echo "TEST_BRANCH: ${env.TEST_BRANCH}"
                     echo "CHANGE_TARGET: ${env.CHANGE_TARGET}"
             }
-           }
+           
               
             when {
                 // Run this stage only if changes are detected in the specified branch
@@ -36,6 +36,7 @@ pipeline {
                     junit 'target/surefire-reports/*.xml'
                 }
             }
+        }
         }
         
         stage('Deploy to Test Environment') {
