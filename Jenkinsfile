@@ -1,7 +1,7 @@
 pipeline {
     agent any
       environment {
-        TEST_BRANCH = 'origin/test'  // Specify the name of your test branch
+        TEST_BRANCH = 'test'  // Specify the name of your test branch
     }
 
     stages {
@@ -16,14 +16,14 @@ pipeline {
         stage('Build and Test') {
            steps { 
             script {
-                    echo "GIT_BRANCH: ${env.GIT_BRANCH}"
+                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "TEST_BRANCH: ${env.TEST_BRANCH}"
             }
            
               
             when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.GIT_BRANCH == env.TEST_BRANCH }
+                expression { env.BRANCH_NAME == env.TEST_BRANCH }
             }
             
                 // Your build and test commands here
@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy to Test Environment') {
             when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.GIT_BRANCH == env.TEST_BRANCH }
+                expression { env.BRANCH_NAME == env.TEST_BRANCH }
             }
             steps {
                 // Your deployment commands for the test environment
