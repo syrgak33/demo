@@ -1,7 +1,7 @@
 pipeline {
     agent any
       environment {
-        TEST_BRANCH = 'test'  // Specify the name of your test branch
+        TEST_BRANCH = 'origin/test'  // Specify the name of your test branch
     }
 
     stages {
