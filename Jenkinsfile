@@ -79,11 +79,12 @@ def updateGitHubPRStatus(state, description) {
         context: 'Jenkins CI'
     ]
     
-    httpRequest(
+        httpRequest(
+        acceptType: 'APPLICATION_JSON',
         contentType: 'APPLICATION_JSON',
         httpMode: 'POST',
-        url: "https://api.github.com/repos/syrgak33/demo/statuses/$pullRequestId",
-        authentication: githubToken,
-        requestBody: groovy.json.JsonOutput.toJson(payload)
+        requestBody: groovy.json.JsonOutput.toJson(payload),
+        authentication: github-token,
+        url: "https://api.github.com/repos/syrgak33/demo/statuses/$pullRequestId"
     )
 }
