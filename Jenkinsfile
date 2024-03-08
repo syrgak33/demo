@@ -18,7 +18,6 @@ pipeline {
             script {
                     echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "TEST_BRANCH: ${env.TEST_BRANCH}"
-                    bash 'sudo apt install maven'
                     sh 'mvn clean test'
             }
            
