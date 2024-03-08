@@ -8,19 +8,28 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from the GitHub repository
-                git credentialsId: 'github-creds', url: 'https://github.com/syrgak33/demo.git'
+                git branch: 'test', credentialsId: 'github-creds', url: 'https://github.com/syrgak33/demo.git'
+               // git credentialsId: 'github-creds', url: 'https://github.com/syrgak33/demo.git'
             }
         }
         
         stage('Build and Test') {
-            when {
+           steps { 
+            script {
+                    echo "BRANCH_NAME: ${env.BRANCH_NAME}"
+                    echo "TEST_BRANCH: ${env.TEST_BRANCH}"
+                    sh 'mvn clean test'
+            }
+           
+              
+            //when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH || env.CHANGE_TARGET == env.TEST_BRANCH }
-            }
-            steps {
+                //expression { env.BRANCH_NAME == env.TEST_BRANCH }
+            //}
+            
                 // Your build and test commands here
-                sh 'mvn clean test' // Example for Maven project, adjust as needed
-            }
+                //sh 'mvn clean test' // Example for Maven project, adjust as needed
+            
             post {
                 always {
                     // Publish JUnit test results
@@ -28,12 +37,13 @@ pipeline {
                 }
             }
         }
+        }
         
         stage('Deploy to Test Environment') {
-            when {
+            //when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH || env.CHANGE_TARGET == env.TEST_BRANCH }
-            }
+                //expression { env.BRANCH_NAME == env.TEST_BRANCH }
+            //}
             steps {
                 // Your deployment commands for the test environment
                 sh 'echo "Deploying to test environment"'
@@ -41,6 +51,7 @@ pipeline {
             }
         }
     }
+
     
     post {
         success {
@@ -58,6 +69,7 @@ pipeline {
     }
 }
 
+
 def updateGitHubPRStatus(state, description) {
     def pullRequestId = env.CHANGE_ID // Get the pull request ID from environment variables
     def githubToken = credentials('github-token') // Use Jenkins credentials to retrieve the GitHub token
@@ -67,12 +79,14 @@ def updateGitHubPRStatus(state, description) {
         description: description,
         context: 'Jenkins CI'
     ]
+
     
-    httpRequest(
+        httpRequest(
+        acceptType: 'APPLICATION_JSON',
         contentType: 'APPLICATION_JSON',
         httpMode: 'POST',
-        url: "https://api.github.com/repos/username/repo/statuses/$pullRequestId",
+        requestBody: groovy.json.JsonOutput.toJson(payload),
         authentication: githubToken,
-        requestBody: groovy.json.JsonOutput.toJson(payload)
+        url: "https://api.github.com/repos/syrgak33/demo/statuses/$pullRequestId"
     )
 }
