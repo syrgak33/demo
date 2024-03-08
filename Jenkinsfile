@@ -18,16 +18,17 @@ pipeline {
             script {
                     echo "BRANCH_NAME: ${env.BRANCH_NAME}"
                     echo "TEST_BRANCH: ${env.TEST_BRANCH}"
+                    sh 'mvn clean test'
             }
            
               
-            when {
+            //when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH }
-            }
+                //expression { env.BRANCH_NAME == env.TEST_BRANCH }
+            //}
             
                 // Your build and test commands here
-                sh 'mvn clean test' // Example for Maven project, adjust as needed
+                //sh 'mvn clean test' // Example for Maven project, adjust as needed
             
             post {
                 always {
@@ -39,10 +40,10 @@ pipeline {
         }
         
         stage('Deploy to Test Environment') {
-            when {
+            //when {
                 // Run this stage only if changes are detected in the specified branch
-                expression { env.BRANCH_NAME == env.TEST_BRANCH }
-            }
+                //expression { env.BRANCH_NAME == env.TEST_BRANCH }
+            //}
             steps {
                 // Your deployment commands for the test environment
                 sh 'echo "Deploying to test environment"'
